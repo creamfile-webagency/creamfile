@@ -13,6 +13,9 @@ const amneOptions = [
   'Sälja domän',
   'Annat',
 ];
+
+const TURNSTILE_SITEKEY = import.meta.env.PUBLIC_TURNSTILE_SITEKEY ?? '';
+const turnstileEnabled = TURNSTILE_SITEKEY && !TURNSTILE_SITEKEY.startsWith('REPLACE');
 ---
 
 {showSuccess ? (
@@ -102,7 +105,9 @@ const amneOptions = [
       <input type="text" id="webbplats" name="webbplats" tabindex="-1" autocomplete="off" />
     </div>
 
-    <div class="cf-turnstile" data-sitekey="REPLACE_WITH_SITEKEY"></div>
+    {turnstileEnabled && (
+      <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY}></div>
+    )}
 
     <div class="form-submit">
       <button type="submit" class="btn-submit">Skicka</button>
@@ -158,7 +163,9 @@ const amneOptions = [
   }
 </script>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{turnstileEnabled && (
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+)}
 
 <style>
 .form-success {
