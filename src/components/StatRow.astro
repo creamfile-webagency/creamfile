@@ -1,3 +1,59 @@
 ---
+interface Props {
+  siteCount: number;
+  groupCount: number;
+}
+const { siteCount, groupCount } = Astro.props;
 ---
-<p>stub</p>
+<div class="statrow">
+  <div class="stat">
+    <span class="stat__num">{siteCount}</span>
+    <span class="stat__label">sajter</span>
+  </div>
+  <div class="stat">
+    <span class="stat__num">{groupCount}</span>
+    <span class="stat__label">affärsområden</span>
+  </div>
+  <div class="stat">
+    <span class="stat__num">2004</span>
+    <span class="stat__label">sedan</span>
+  </div>
+</div>
+
+<style>
+.statrow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 40px 0;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 24px;
+  border-left: 1px solid var(--color-line);
+}
+.stat:first-child { border-left: none; padding-left: 0; }
+
+.stat__num {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat__label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+</style>

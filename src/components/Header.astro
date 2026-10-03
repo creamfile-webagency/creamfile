@@ -1,3 +1,179 @@
 ---
+const nav = [
+  { label: 'Portfölj', href: '/portfolj' },
+  { label: 'Annonsera', href: '/annonsera' },
+  { label: 'Om Creamfile', href: '/om' },
+  { label: 'Kontakt', href: '/kontakt' },
+];
+const currentPath = Astro.url.pathname;
 ---
-<p>stub</p>
+<header class="header">
+  <div class="header__inner">
+    <a href="/" class="logo" aria-label="Creamfile – startsidan">
+      creamfile<span class="logo__dot">.</span>
+    </a>
+
+    <nav class="nav" aria-label="Huvudnavigation">
+      {nav.map(({ label, href }) => (
+        <a
+          href={href}
+          class:list={['nav__link', { 'nav__link--active': currentPath.startsWith(href) }]}
+        >
+          {label}
+        </a>
+      ))}
+      <a href="/kontakt" class="btn-nav">Kontakta oss</a>
+    </nav>
+
+    <button class="burger" aria-label="Öppna meny" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+    {nav.map(({ label, href }) => (
+      <a href={href} class="mobile-nav__link">{label}</a>
+    ))}
+    <a href="/kontakt" class="mobile-nav__cta">Kontakta oss</a>
+  </div>
+</header>
+
+<script>
+const burger = document.querySelector('.burger') as HTMLButtonElement;
+const mobileNav = document.getElementById('mobile-nav') as HTMLElement;
+
+burger?.addEventListener('click', () => {
+  const open = burger.getAttribute('aria-expanded') === 'true';
+  burger.setAttribute('aria-expanded', String(!open));
+  mobileNav.setAttribute('aria-hidden', String(open));
+  mobileNav.classList.toggle('mobile-nav--open', !open);
+  burger.classList.toggle('burger--open', !open);
+});
+</script>
+
+<style>
+.header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-line-soft);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+@media (min-width: 1024px) {
+  .header__inner { padding: 0 64px; height: 80px; }
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  text-decoration: none;
+  font-variation-settings: "opsz" 48, "SOFT" 50;
+}
+.logo__dot { color: var(--color-accent); }
+.logo:hover { color: var(--color-ink); }
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: 32px;
+}
+@media (min-width: 900px) { .nav { display: flex; } }
+
+.nav__link {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+}
+.nav__link:hover { color: var(--color-ink); }
+.nav__link--active {
+  color: var(--color-ink);
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 2px;
+}
+
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  background: var(--color-ink);
+  color: var(--color-surface);
+  border: 1px solid var(--color-ink);
+  text-decoration: none;
+}
+.btn-nav:hover { background: #2a2720; color: var(--color-surface); }
+
+.burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+@media (min-width: 900px) { .burger { display: none; } }
+.burger span {
+  display: block;
+  height: 2px;
+  background: var(--color-ink);
+  border-radius: 2px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.burger--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger--open span:nth-child(2) { opacity: 0; }
+.burger--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-line-soft);
+  padding: 20px;
+}
+.mobile-nav--open { display: flex; }
+@media (min-width: 900px) { .mobile-nav, .mobile-nav--open { display: none; } }
+
+.mobile-nav__link {
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  border-bottom: 1px solid var(--color-line-soft);
+  text-decoration: none;
+}
+.mobile-nav__link:last-of-type { border-bottom: none; }
+.mobile-nav__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  height: 46px;
+  border-radius: var(--radius-btn);
+  background: var(--color-ink);
+  color: var(--color-surface);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+}
+</style>

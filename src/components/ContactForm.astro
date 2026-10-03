@@ -1,3 +1,259 @@
 ---
+interface Props {
+  prefilledAmne?: string;
+  showSuccess?: boolean;
+  errorMessage?: string;
+}
+const { prefilledAmne = '', showSuccess = false, errorMessage = '' } = Astro.props;
+
+const amneOptions = [
+  'Annonsera',
+  'Premiumprofiler',
+  'Data & partnerskap',
+  'Sälja domän',
+  'Annat',
+];
 ---
-<p>stub</p>
+
+{showSuccess ? (
+  <div class="form-success" role="alert">
+    <h2 class="form-success__title">Tack för ditt meddelande!</h2>
+    <p class="form-success__text">Vi återkommer inom en arbetsdag.</p>
+    <a href="/" class="form-success__link">Tillbaka till startsidan</a>
+  </div>
+) : (
+  <form
+    class="contact-form"
+    method="POST"
+    action="/api/kontakt"
+    novalidate
+    id="contact-form"
+  >
+    {errorMessage && (
+      <div class="form-error" role="alert" aria-live="assertive">
+        {errorMessage}
+      </div>
+    )}
+
+    <div class="form-row">
+      <label for="namn" class="form-label">Namn <span aria-hidden="true">*</span></label>
+      <input
+        type="text"
+        id="namn"
+        name="namn"
+        class="form-input"
+        required
+        autocomplete="name"
+        aria-required="true"
+      />
+    </div>
+
+    <div class="form-row">
+      <label for="foretag" class="form-label">Företag <span class="form-optional">(valfritt)</span></label>
+      <input
+        type="text"
+        id="foretag"
+        name="foretag"
+        class="form-input"
+        autocomplete="organization"
+      />
+    </div>
+
+    <div class="form-row">
+      <label for="epost" class="form-label">E-post <span aria-hidden="true">*</span></label>
+      <input
+        type="email"
+        id="epost"
+        name="epost"
+        class="form-input"
+        required
+        autocomplete="email"
+        aria-required="true"
+      />
+    </div>
+
+    <div class="form-row">
+      <label for="amne" class="form-label">Ämne <span aria-hidden="true">*</span></label>
+      <select id="amne" name="amne" class="form-input form-select" required aria-required="true">
+        <option value="" disabled selected={!prefilledAmne}>Välj ämne</option>
+        {amneOptions.map(opt => (
+          <option value={opt} selected={opt === prefilledAmne}>{opt}</option>
+        ))}
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="meddelande" class="form-label">Meddelande <span aria-hidden="true">*</span></label>
+      <textarea
+        id="meddelande"
+        name="meddelande"
+        class="form-input form-textarea"
+        required
+        rows="5"
+        aria-required="true"
+        minlength="20"
+        maxlength="3000"
+      ></textarea>
+    </div>
+
+    {/* Honeypot — hidden from real users */}
+    <div style="display:none" aria-hidden="true">
+      <label for="webbplats">Webbplats</label>
+      <input type="text" id="webbplats" name="webbplats" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="cf-turnstile" data-sitekey="REPLACE_WITH_SITEKEY"></div>
+
+    <div class="form-submit">
+      <button type="submit" class="btn-submit">Skicka</button>
+    </div>
+  </form>
+)}
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Skickar…';
+
+      try {
+        const fd = new FormData(form);
+        const res = await fetch('/api/kontakt', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(fd.entries())),
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          form.innerHTML = `
+            <div class="form-success" role="alert">
+              <h2 class="form-success__title">Tack för ditt meddelande!</h2>
+              <p class="form-success__text">Vi återkommer inom en arbetsdag.</p>
+              <a href="/" class="form-success__link">Tillbaka till startsidan</a>
+            </div>`;
+        } else {
+          const errorDiv = form.querySelector('.form-error') as HTMLElement;
+          const msg = data.error || 'Något gick fel. Försök igen.';
+          if (errorDiv) {
+            errorDiv.textContent = msg;
+          } else {
+            const div = document.createElement('div');
+            div.className = 'form-error';
+            div.setAttribute('role', 'alert');
+            div.textContent = msg;
+            form.prepend(div);
+          }
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Skicka';
+        }
+      } catch {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Skicka';
+      }
+    });
+  }
+</script>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<style>
+.form-success {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+}
+.form-success__title {
+  font-size: 28px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-variation-settings: "opsz" 48, "SOFT" 0;
+}
+.form-success__text { color: var(--color-ink-soft); }
+.form-success__link {
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-error {
+  padding: 12px 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-btn);
+  font-size: 15px;
+  color: #b91c1c;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.form-optional {
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-ui);
+  border-radius: var(--radius-btn);
+  outline: none;
+  transition: border-color 0.15s;
+  appearance: none;
+}
+.form-input:focus {
+  border-color: var(--color-accent);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0;
+}
+.form-textarea { resize: vertical; min-height: 120px; }
+.form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A463D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+
+.form-submit { margin-top: 4px; }
+
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 28px;
+  background: var(--color-ink);
+  color: var(--color-surface);
+  border: 1px solid var(--color-ink);
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-submit:hover { background: #2a2720; }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>

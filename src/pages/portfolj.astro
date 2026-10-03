@@ -1,3 +1,59 @@
 ---
+import Base from '../layouts/Base.astro';
+import GroupSection from '../components/GroupSection.astro';
+import { getVisibleSites, getGroupsWithSites, getSitesByGroup } from '../data/sites';
+
+const visibleSites = getVisibleSites();
+const groupsWithSites = getGroupsWithSites();
+const count = visibleSites.length;
 ---
-<p>stub</p>
+<Base
+  title={`Portföljen — ${count} sajter i sex affärsområden | Creamfile`}
+  description={`Creamfile äger ${count} sajter i sex affärsområden: guider, finans, privatekonomi, spel, sport och handel.`}
+  canonical="https://creamfile.com/portfolj"
+>
+
+  <div class="page-header container">
+    <h1 class="page-header__h1">{count} sajter. Sex affärsområden. En idé.</h1>
+    <p class="page-header__ingress">
+      Varje adress i portföljen är det självklara svaret på en fråga. Samlade bildar de en plattform för annonsörer, partners och läsare som vill nå rätt publik — utan omvägar.
+    </p>
+  </div>
+
+  <div class="portfolj container">
+    {groupsWithSites.map(group => (
+      <GroupSection
+        group={group}
+        sites={getSitesByGroup(group.id)}
+      />
+    ))}
+  </div>
+
+</Base>
+
+<style>
+.page-header {
+  padding: 80px 0 56px;
+  border-bottom: 1px solid var(--color-line);
+  margin-bottom: 72px;
+}
+@media (min-width: 1024px) { .page-header { padding: 96px 0 64px; } }
+
+.page-header__h1 {
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.05;
+  margin-bottom: 24px;
+  max-width: 22ch;
+}
+
+.page-header__ingress {
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+  max-width: 56ch;
+}
+
+.portfolj {
+  padding-bottom: 96px;
+}
+</style>

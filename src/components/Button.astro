@@ -1,3 +1,70 @@
 ---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'honey';
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
+const { href, variant = 'primary', class: className = '', type = 'button' } = Astro.props;
 ---
-<p>stub</p>
+{href ? (
+  <a href={href} class:list={['btn', `btn--${variant}`, className]}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class:list={['btn', `btn--${variant}`, className]}>
+    <slot />
+  </button>
+)}
+
+<style>
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 22px;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: var(--color-ink);
+  color: var(--color-surface);
+  border-color: var(--color-ink);
+}
+.btn--primary:hover {
+  background: #2a2720;
+  border-color: #2a2720;
+  color: var(--color-surface);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-border-ui);
+}
+.btn--secondary:hover {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.btn--honey {
+  background: var(--color-honey);
+  color: var(--color-ink);
+  border-color: var(--color-honey);
+}
+.btn--honey:hover {
+  background: #c8963c;
+  border-color: #c8963c;
+  color: var(--color-ink);
+}
+</style>

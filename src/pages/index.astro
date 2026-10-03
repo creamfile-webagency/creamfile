@@ -1,3 +1,360 @@
 ---
+import Base from '../layouts/Base.astro';
+import Label from '../components/Label.astro';
+import Button from '../components/Button.astro';
+import StatRow from '../components/StatRow.astro';
+import DomainList from '../components/DomainList.astro';
+import { getVisibleSites, getFeaturedSites, getGroupsWithSites, getSitesByGroup } from '../data/sites';
+
+const visibleSites = getVisibleSites();
+const featuredSites = getFeaturedSites();
+const groupsWithSites = getGroupsWithSites();
+
+const siteCount = visibleSites.length;
+const groupCount = groupsWithSites.length;
+
+function getOtherSitesText(count: number): string {
+  if (count < 30) return `och ${count} andra sajter`;
+  if (count < 50) return 'och ett fyrtiotal andra sajter';
+  return 'och ett femtiotal andra sajter';
+}
+
+const featuredDomains = featuredSites.map(s => s.domain);
+const otherCount = siteCount - featuredSites.length;
+const otherText = getOtherSitesText(otherCount);
+
+const description = `Creamfile äger och bygger ${featuredDomains.slice(0, 3).join(', ')} ${otherText}. Annonsera på adresserna dina kunder söker sig till först.`;
 ---
-<p>stub</p>
+<Base
+  title="Creamfile — Sveriges självklara adresser"
+  description={description}
+  canonical="https://creamfile.com/"
+>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__inner container">
+      <div class="hero__content">
+        <Label text="Creamfile AB" />
+        <h1 class="hero__h1">Sveriges självklara adresser.</h1>
+        <p class="hero__ingress">
+          Vi äger och bygger {featuredDomains.map((d, i) => (
+            <span key={d}>
+              <a href={`https://${d}`} target="_blank" rel="noopener" class="hero__site-link">{d}</a>{i < featuredDomains.length - 1 ? ', ' : ''}
+            </span>
+          ))} {otherText} på de adresser människor i Sverige och Norden söker sig till först. Vill du synas där dina kunder redan letar?
+        </p>
+        <div class="hero__btns">
+          <Button href="/annonsera">Annonsera hos oss</Button>
+          <Button href="/portfolj" variant="secondary">Se portföljen</Button>
+        </div>
+      </div>
+      <div class="hero__stats">
+        <div class="hero__stat">
+          <span class="hero__num">{siteCount}</span>
+          <span class="hero__stat-label">sajter</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__num">{groupCount}</span>
+          <span class="hero__stat-label">affärsområden</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__num">2004</span>
+          <span class="hero__stat-label">sedan</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dark portfolio section -->
+  <section class="dark-section" aria-label="Portföljen">
+    <div class="dark-section__inner container">
+      <div class="dark-section__header">
+        <div class="dark-section__left">
+          <Label text="Portföljen" dark />
+          <h2 class="dark-section__h2">Den som äger ordet äger kategorin.</h2>
+        </div>
+        <p class="dark-section__tagline">
+          Ett starkt domännamn är den enda marknadsföringstillgång som inte kan kopieras. Det finns bara ett restaurang.com — och inom varje affärsområde bygger vi våra adresser mot en gemensam motor.
+        </p>
+      </div>
+
+      {groupsWithSites.map(group => {
+        const groupSites = getSitesByGroup(group.id);
+        return (
+          <DomainList
+            groupName={group.name}
+            groupId={group.id}
+            domains={groupSites.map(s => s.domain)}
+            count={groupSites.length}
+          />
+        );
+      })}
+
+      <div class="dark-section__cta">
+        <Button href="/portfolj" variant="honey">Hela portföljen</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advertisers section -->
+  <section class="advertisers container">
+    <div class="advertisers__inner">
+      <div class="advertisers__intro">
+        <Label text="För annonsörer" />
+        <h2 class="advertisers__h2">Gräddfilen till kunder som redan letar.</h2>
+        <p class="advertisers__ingress">Creamfile betyder gräddfil — den snabba vägen förbi kön. Förbi sökannonser och algoritmer, rakt fram till människor som redan bestämt sig.</p>
+      </div>
+      <div class="advertisers__points">
+        <div class="adpoint">
+          <h3>Trafik med syfte</h3>
+          <p>Besökaren på hotellet.se ska boka hotell. Besökaren på elen.se vill sänka sin elräkning. Vi säljer inte räckvidd i största allmänhet — bara närvaro i kategorin där din kund redan är.</p>
+        </div>
+        <div class="adpoint">
+          <h3>Riktiga sajter, inte parkerade domäner</h3>
+          <p>Kataloger över hela Sverige, verktyg människor återvänder till och redaktionellt innehåll som lokalpressen citerar. Adresserna är självklara — sajterna gör dem värda att besöka.</p>
+        </div>
+        <div class="adpoint">
+          <h3>Egen mark, långa horisonter</h3>
+          <p>Bröllop.se har funnits sedan 2004. Vi bygger på egna domäner, egen kod och egen publik, och tänker i decennier. Det gör oss till en partner som finns kvar.</p>
+        </div>
+        <Button href="/annonsera" class="advertisers__btn">Ta gräddfilen</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Domain owner CTA -->
+  <section class="domain-cta container">
+    <div class="domain-cta__card">
+      <div class="domain-cta__text">
+        <h2 class="domain-cta__h2">Äger du en generisk adress?</h2>
+        <p>Vi köper .se- och .com-domäner i kategorier med kommersiell intention — för att bygga, inte för att sälja vidare. Hör av dig om du har en adress som passar portföljen.</p>
+      </div>
+      <Button href="/kontakt?amne=doman" variant="secondary">Berätta om din domän</Button>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+/* Hero */
+.hero {
+  padding: 80px 0 64px;
+}
+@media (min-width: 1024px) { .hero { padding: 120px 0 96px; } }
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: end;
+}
+@media (min-width: 1024px) {
+  .hero__inner {
+    grid-template-columns: 1fr 260px;
+    gap: 64px;
+  }
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.hero__h1 {
+  font-size: clamp(48px, 6vw, 84px);
+  line-height: 1.02;
+  max-width: 14ch;
+}
+
+.hero__ingress {
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+  max-width: 52ch;
+}
+
+.hero__site-link {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.hero__btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.hero__stats {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+}
+@media (min-width: 1024px) {
+  .hero__stats {
+    flex-direction: column;
+    gap: 28px;
+    padding-left: 24px;
+    border-left: 1px solid var(--color-line);
+  }
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  padding: 0 16px;
+  border-left: 1px solid var(--color-line);
+}
+.hero__stat:first-child { border-left: none; padding-left: 0; }
+@media (min-width: 1024px) {
+  .hero__stat { border-left: none; padding-left: 0; }
+  .hero__stat:first-child { border-left: none; }
+}
+
+.hero__num {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero__stat-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Dark section */
+.dark-section {
+  background: var(--color-ink);
+  color: #FBF8F2;
+  padding: 80px 0;
+}
+@media (min-width: 1024px) { .dark-section { padding: 96px 0; } }
+
+.dark-section__inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.dark-section__header {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 16px;
+  align-items: end;
+}
+@media (min-width: 1024px) {
+  .dark-section__header { grid-template-columns: 1fr 1fr; }
+}
+
+.dark-section__left {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dark-section__h2 {
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.12;
+  color: #FBF8F2;
+}
+
+.dark-section__tagline {
+  font-size: 17px;
+  color: rgba(251, 248, 242, 0.72);
+  align-self: end;
+}
+
+.dark-section__cta {
+  padding-top: 40px;
+}
+
+/* Advertisers */
+.advertisers {
+  padding: 96px 0;
+}
+
+.advertisers__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+@media (min-width: 1024px) {
+  .advertisers__inner { grid-template-columns: 5fr 6fr; gap: 64px; }
+}
+
+.advertisers__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.advertisers__h2 {
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.12;
+}
+
+.advertisers__ingress {
+  color: var(--color-ink-soft);
+}
+
+.advertisers__points {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.adpoint {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.adpoint p { color: var(--color-ink-soft); }
+
+.advertisers__btn { align-self: flex-start; }
+
+/* Domain CTA */
+.domain-cta {
+  padding-bottom: 96px;
+}
+
+.domain-cta__card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 48px 40px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+@media (min-width: 1024px) {
+  .domain-cta__card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 64px;
+  }
+}
+
+.domain-cta__text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 56ch;
+}
+.domain-cta__h2 {
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.15;
+}
+.domain-cta__text p { color: var(--color-ink-soft); }
+</style>

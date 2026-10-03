@@ -1,3 +1,177 @@
 ---
+import Base from '../layouts/Base.astro';
+import Label from '../components/Label.astro';
+import Button from '../components/Button.astro';
+import OfferCard from '../components/OfferCard.astro';
+
+const offers = [
+  {
+    number: '01',
+    title: 'Synas på en sajt',
+    description: 'Sponsrad placering, kategorisponsring eller native-artikel på en av sajterna. För företag i en kategori: en bank på räntan.se, en hotellkedja på hotellet.se.',
+    price: 'Från [PRIS] kr/mån',
+    href: '/kontakt?amne=Annonsera',
+  },
+  {
+    number: '02',
+    title: 'Synas i ett område',
+    description: 'Paket över alla sajter i ett affärsområde — Finansmarknad & trading (14 sajter, fem språk) för mäklare och handlare; Privatekonomi för banker och elbolag; Guider & leads för kedjor; Spel för daglig räckvidd.',
+    price: 'Offert',
+    href: '/kontakt?amne=Annonsera',
+  },
+  {
+    number: '03',
+    title: 'Bli hittad av dina kunder',
+    description: 'Premiumprofil och leads på restaurang.com, hotellet.se och bröllop.se. Köps direkt på respektive sajt, utan bindningstid.',
+    price: 'Från 199 kr/mån',
+    href: '/kontakt?amne=Premiumprofiler',
+  },
+  {
+    number: '04',
+    title: 'Data och partnerskap',
+    description: 'Rapporter och dataset ur våra databaser, API-tillgång och gemensamma kampanjer. För press, analytiker och partners.',
+    price: 'Offert',
+    href: '/kontakt?amne=Data+%26+partnerskap',
+  },
+];
 ---
-<p>stub</p>
+<Base
+  title="Annonsera hos Creamfile — gräddfilen till kunder som redan letar"
+  description="Fyra sätt att nå rätt kunder via Creamfiles portfölj av svenska starka webbadresser. Sponsrade placeringar, premiumprofiler, data och partnerskap."
+  canonical="https://creamfile.com/annonsera"
+>
+
+  <!-- Hero -->
+  <section class="ann-hero container">
+    <div class="ann-hero__content">
+      <Label text="Annonsera" />
+      <h1 class="ann-hero__h1">Gräddfilen till kunder som redan letar.</h1>
+      <p class="ann-hero__ingress">
+        Creamfile betyder gräddfil. Våra adresser är den snabba vägen förbi sökannonser och algoritmer — rakt fram till människor som redan bestämt sig för vad de vill ha. Fyra sätt att synas:
+      </p>
+    </div>
+  </section>
+
+  <!-- Offer cards -->
+  <section class="offers container" id="premiumprofiler">
+    <div class="offers__grid">
+      {offers.map(offer => (
+        <OfferCard
+          number={offer.number}
+          title={offer.title}
+          description={offer.description}
+          price={offer.price}
+          href={offer.href}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- Dark CTA -->
+  <section class="dark-cta" id="data" aria-label="Kontakt">
+    <div class="dark-cta__inner container">
+      <div class="dark-cta__text">
+        <Label text="Kontakt" dark />
+        <h2 class="dark-cta__h2">Berätta vilka du vill nå. Vi visar gräddfilen dit.</h2>
+        <p class="dark-cta__p">Vi svarar inom en arbetsdag med förslag, format och pris. Inga paket du inte behöver.</p>
+      </div>
+      <div class="dark-cta__actions">
+        <Button href="/kontakt" variant="honey">Kontakta oss</Button>
+        <a href="mailto:info@creamfile.com" class="dark-cta__email">info@creamfile.com</a>
+      </div>
+    </div>
+  </section>
+
+</Base>
+
+<style>
+.ann-hero {
+  padding: 80px 0 48px;
+}
+@media (min-width: 1024px) { .ann-hero { padding: 96px 0 64px; } }
+
+.ann-hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 60ch;
+}
+
+.ann-hero__h1 {
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.05;
+}
+
+.ann-hero__ingress {
+  font-size: 20px;
+  color: var(--color-ink-soft);
+  max-width: 54ch;
+}
+
+.offers {
+  padding-bottom: 0;
+}
+
+.offers__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding-bottom: 0;
+}
+@media (min-width: 640px) {
+  .offers__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.dark-cta {
+  background: var(--color-ink);
+  color: #FBF8F2;
+  margin-top: 80px;
+  padding: 80px 0;
+}
+@media (min-width: 1024px) { .dark-cta { padding: 96px 0; } }
+
+.dark-cta__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .dark-cta__inner { grid-template-columns: 7fr 4fr; gap: 64px; }
+}
+
+.dark-cta__text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dark-cta__h2 {
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.12;
+  color: #FBF8F2;
+}
+
+.dark-cta__p {
+  color: rgba(251, 248, 242, 0.72);
+  max-width: 50ch;
+}
+
+.dark-cta__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+@media (min-width: 1024px) {
+  .dark-cta__actions { align-items: stretch; }
+}
+
+.dark-cta__email {
+  color: #FBF8F2;
+  text-align: center;
+  font-size: 15px;
+  text-decoration: none;
+}
+.dark-cta__email:hover { text-decoration: underline; }
+</style>

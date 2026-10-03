@@ -1,3 +1,126 @@
 ---
+import { site } from '../data/site';
+import { groups } from '../data/sites';
+
+const year = new Date().getFullYear();
 ---
-<p>stub</p>
+<footer class="footer">
+  <div class="footer__grid">
+    <div class="footer__brand">
+      <a href="/" class="logo" aria-label="Creamfile – startsidan">
+        creamfile<span class="logo__dot">.</span>com
+      </a>
+      <p class="footer__tagline">{site.tagline}</p>
+    </div>
+
+    <div class="footer__col">
+      <span class="footer__heading">Portfölj</span>
+      {groups.map(g => (
+        <a href={`/portfolj#${g.id}`} class="footer__link">{g.name}</a>
+      ))}
+    </div>
+
+    <div class="footer__col">
+      <span class="footer__heading">Företag</span>
+      <a href="/annonsera" class="footer__link">Annonsera</a>
+      <a href="/annonsera#premiumprofiler" class="footer__link">Premiumprofiler</a>
+      <a href="/annonsera#data" class="footer__link">Data &amp; partnerskap</a>
+      <a href="/kontakt?amne=doman" class="footer__link">Sälj din domän</a>
+    </div>
+
+    <div class="footer__col">
+      <span class="footer__heading">{site.name}</span>
+      <p class="footer__info">{site.email}</p>
+      <p class="footer__info">Org.nr {site.orgNr}</p>
+      <p class="footer__info">{site.address}</p>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <p>© {year} {site.name} · <a href="/integritetspolicy" class="footer__policy">Integritetspolicy</a></p>
+  </div>
+</footer>
+
+<style>
+.footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-line-soft);
+  padding: 56px 20px 40px;
+}
+@media (min-width: 1024px) { .footer { padding: 56px 64px 40px; } }
+
+.footer__grid {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+@media (min-width: 640px) {
+  .footer__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .footer__grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  text-decoration: none;
+  font-variation-settings: "opsz" 48, "SOFT" 50;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.logo__dot { color: var(--color-accent); }
+
+.footer__tagline {
+  font-size: 14px;
+  color: var(--color-muted);
+  max-width: 26ch;
+}
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer__heading {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 2px;
+}
+
+.footer__link {
+  font-size: 15px;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+}
+.footer__link:hover { color: var(--color-ink); }
+
+.footer__info {
+  font-size: 15px;
+  color: var(--color-ink-soft);
+}
+
+.footer__bottom {
+  max-width: var(--max-w);
+  margin: 24px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-line-soft);
+  font-size: 13px;
+  color: var(--color-muted);
+}
+.footer__policy {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+.footer__policy:hover { color: var(--color-ink); }
+</style>

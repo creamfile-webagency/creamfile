@@ -1,3 +1,77 @@
 ---
+import Base from '../layouts/Base.astro';
+import DomainName from '../components/DomainName.astro';
+import Button from '../components/Button.astro';
+import { getFeaturedSites } from '../data/sites';
+
+const featuredSites = getFeaturedSites();
 ---
-<p>stub</p>
+<Base title="404 — Creamfile">
+
+  <div class="notfound container">
+    <div class="notfound__logo">
+      <a href="/" class="logo" aria-label="Creamfile — startsidan">
+        creamfile<span class="logo__dot">.</span>
+      </a>
+    </div>
+
+    <h1 class="notfound__h1">Den här adressen finns inte.</h1>
+    <p class="notfound__sub">Men de här gör det:</p>
+
+    <div class="notfound__domains">
+      {featuredSites.map(s => (
+        <a href={s.url} target="_blank" rel="noopener" class="notfound__domain-link" aria-label={`${s.domain} — öppnar i ny flik`}>
+          <DomainName domain={s.domain} size="lg" />
+        </a>
+      ))}
+    </div>
+
+    <Button href="/" variant="secondary">Tillbaka till startsidan</Button>
+  </div>
+
+</Base>
+
+<style>
+.notfound {
+  padding: 96px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 28px;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  text-decoration: none;
+  font-variation-settings: "opsz" 48, "SOFT" 50;
+}
+.logo__dot { color: var(--color-accent); }
+
+.notfound__h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.05;
+}
+
+.notfound__sub {
+  font-size: 20px;
+  color: var(--color-ink-soft);
+  margin-top: -16px;
+}
+
+.notfound__domains {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+}
+
+.notfound__domain-link {
+  text-decoration: none;
+}
+.notfound__domain-link:hover :global(.domain) {
+  opacity: 0.7;
+}
+</style>

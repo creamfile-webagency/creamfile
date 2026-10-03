@@ -1,3 +1,78 @@
 ---
+import SiteCard from './SiteCard.astro';
+
+interface Site {
+  domain: string;
+  description: string;
+  languages: string[];
+  status: 'live' | 'building';
+  url: string;
+}
+interface Group {
+  id: string;
+  name: string;
+  intro: string;
+}
+interface Props {
+  group: Group;
+  sites: Site[];
+}
+const { group, sites } = Astro.props;
 ---
-<p>stub</p>
+<section class="groupsection" id={group.id} aria-labelledby={`group-${group.id}`}>
+  <div class="groupsection__header">
+    <h2 id={`group-${group.id}`} class="groupsection__title">{group.name}</h2>
+    <p class="groupsection__intro">{group.intro}</p>
+  </div>
+  <div class="groupsection__grid">
+    {sites.map(site => (
+      <SiteCard
+        domain={site.domain}
+        description={site.description}
+        languages={site.languages}
+        status={site.status}
+        url={site.url}
+      />
+    ))}
+  </div>
+</section>
+
+<style>
+.groupsection {
+  margin-bottom: 72px;
+}
+
+.groupsection__header {
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.groupsection__title {
+  font-size: 32px;
+  line-height: 1.15;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-variation-settings: "opsz" 48, "SOFT" 0;
+}
+@media (min-width: 640px) { .groupsection__title { font-size: 40px; } }
+
+.groupsection__intro {
+  font-size: 17px;
+  color: var(--color-ink-soft);
+  max-width: 62ch;
+}
+
+.groupsection__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 640px) {
+  .groupsection__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .groupsection__grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>

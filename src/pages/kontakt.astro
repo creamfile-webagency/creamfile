@@ -1,3 +1,123 @@
 ---
+import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Label from '../components/Label.astro';
+import { site } from '../data/site';
+
+const amne = Astro.url.searchParams.get('amne') ?? '';
+const skickat = Astro.url.searchParams.get('skickat') === '1';
+const fel = Astro.url.searchParams.get('fel') ?? '';
 ---
-<p>stub</p>
+<Base
+  title="Kontakta Creamfile"
+  description="Kontakta Creamfile för annonsering, premiumprofiler, datapartnerskap eller domänförsäljning."
+  canonical="https://creamfile.com/kontakt"
+>
+
+  <div class="kontakt container">
+    <div class="kontakt__header">
+      <h1 class="kontakt__h1">Kontakta oss</h1>
+      <p class="kontakt__ingress">Vi svarar inom en arbetsdag med förslag, format och pris. Inga paket du inte behöver.</p>
+    </div>
+
+    <div class="kontakt__grid">
+      <div class="kontakt__form">
+        <ContactForm
+          prefilledAmne={amne}
+          showSuccess={skickat}
+          errorMessage={fel}
+        />
+      </div>
+
+      <aside class="kontakt__info" aria-label="Kontaktuppgifter">
+        <div class="kontakt__info-section">
+          <Label text="E-post" />
+          <a href={`mailto:${site.email}`} class="kontakt__email">{site.email}</a>
+        </div>
+        <div class="kontakt__info-section">
+          <Label text={site.name} />
+          <p>Org.nr {site.orgNr}</p>
+          <p>{site.address}</p>
+        </div>
+        <div class="kontakt__info-section">
+          <Label text="Vanliga ärenden" />
+          <ul class="kontakt__links">
+            <li><a href="/annonsera">Annonsera på en sajt →</a></li>
+            <li><a href="/annonsera#premiumprofiler">Premiumprofiler →</a></li>
+            <li><a href="/kontakt?amne=doman">Sälja en domän →</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+</Base>
+
+<style>
+.kontakt {
+  padding: 72px 0 96px;
+}
+
+.kontakt__header {
+  margin-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kontakt__h1 {
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.05;
+}
+
+.kontakt__ingress {
+  font-size: 20px;
+  color: var(--color-ink-soft);
+  max-width: 52ch;
+}
+
+.kontakt__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 64px;
+}
+@media (min-width: 1024px) {
+  .kontakt__grid { grid-template-columns: 7fr 4fr; }
+}
+
+.kontakt__info {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.kontakt__info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kontakt__info-section p {
+  font-size: 16px;
+  color: var(--color-ink-soft);
+}
+
+.kontakt__email {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.kontakt__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kontakt__links a {
+  font-size: 15px;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+</style>

@@ -1,3 +1,49 @@
 ---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
 ---
-<p>stub</p>
+<Base
+  title="Integritetspolicy | Creamfile"
+  description="Creamfiles integritetspolicy. Ingen persondata samlas in utöver anonymiserad trafikstatistik via Cloudflare Web Analytics."
+  canonical="https://creamfile.com/integritetspolicy"
+>
+
+  <div class="policy container">
+    <h1 class="policy__h1">Integritetspolicy</h1>
+
+    <div class="policy__body">
+      <p>
+        Ingen data samlas in utöver anonymiserad trafikstatistik via Cloudflare Web Analytics (cookiefri) och tekniska loggdata hos Cloudflare.
+      </p>
+      <p>
+        Kontaktformulär: ditt namn och din e-postadress sparas inte längre än nödvändigt för att besvara din förfrågan.
+      </p>
+      <p>
+        Kontakta <a href={`mailto:${site.email}`}>{site.email}</a> för frågor.
+      </p>
+    </div>
+  </div>
+
+</Base>
+
+<style>
+.policy {
+  padding: 72px 0 96px;
+  max-width: 680px;
+}
+
+.policy__h1 {
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.05;
+  margin-bottom: 40px;
+}
+
+.policy__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--color-ink-soft);
+}
+</style>
