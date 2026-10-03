@@ -1,6 +1,6 @@
-# Deploy to Cloudflare Pages on push to main.
-# To activate: add CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID as GitHub secrets.
-# See: https://github.com/cloudflare/pages-action
+# Deploy the Cloudflare Worker on push to main.
+# Required GitHub repo secrets: CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
+# CLOUDFLARE_ACCOUNT_ID value: 36953f6e0a30adb1e9d933838337cdf0
 name: Deploy
 
 on:
@@ -15,7 +15,7 @@ jobs:
       - run: corepack enable && corepack prepare pnpm@latest --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: pnpm exec wrangler pages deploy dist/client --project-name=creamfile-com
+      - run: pnpm exec wrangler deploy --config dist/server/wrangler.json
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
