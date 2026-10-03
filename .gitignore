@@ -7,6 +7,7 @@ dev.vars
 __pycache__/
 secrets/
 credentials/
+.claude/
 *.key
 *-key.json
 .env
