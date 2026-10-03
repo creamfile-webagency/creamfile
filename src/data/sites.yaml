@@ -1,0 +1,275 @@
+# Creamfile — portföljdata för creamfile.com
+# Redigera den här filen för att lägga till, ta bort eller flytta sajter.
+# Sajten byggs om automatiskt vid push. Ordningen i filen = ordningen på sajten.
+#
+# group:       ett av id:na under groups
+# languages:   sv, da, no, nl, en eller multi
+# status:      live | building   (building visar etiketten "Under uppbyggnad")
+# url:         punycode för IDN-domäner (bröllop.se = xn--brllop-xxa.se)
+# featured:    true = visas i hero-texten på startsidan (max 5)
+# hidden:      true = döljs från sajten utan att raderas
+groups:
+- id: guider
+  name: Guider & leads
+  internal: Service apps
+  tagline: Kataloger, premiumprofiler, leads
+  intro: Hitta och välja rätt leverantör. Katalog över hela Sverige, premiumprofiler och leads för företagen i kategorin.
+- id: finans
+  name: Finansmarknad & trading
+  internal: Investviewer
+  tagline: Kurser, marknadsdata och tradingverktyg, fem språk
+  intro: Följa kurser och marknader, handla med bättre verktyg. Fjorton sajter på fem språk — InvestViewer-nätverket.
+- id: privatekonomi
+  name: Privatekonomi
+  internal: Personal Finance
+  tagline: Verktyg på hushållets egen data
+  intro: Räkna, jämföra och bevaka sin egen ekonomi — på hushållets egen data.
+- id: spel
+  name: Spel
+  internal: Webgames
+  tagline: Dagliga pussel och quiz
+  intro: Spela, lösa, lära. Dagliga pussel och quiz som folk återkommer till — räckvidd varje dag.
+- id: sport
+  name: Sport
+  internal: Sport apps
+  tagline: Innehåll och community
+  intro: Följa, träna, hitta. Publiken först — produkter sedan.
+- id: handel
+  name: Handel
+  internal: Ecom
+  tagline: Butik med eget lager
+  intro: E-handel med eget lager i Sverige.
+sites:
+- domain: restaurang.com
+  group: guider
+  description: Hela Sveriges restaurangguide. Alla restauranger, varje stad, varje kategori.
+  languages: [sv]
+  status: live
+  url: https://restaurang.com
+  featured: true
+- domain: hotellet.se
+  group: guider
+  description: 1 800 hotell i 621 orter, jämförda och recenserade av svenska gäster.
+  languages: [sv]
+  status: live
+  url: https://hotellet.se
+  featured: true
+- domain: bröllop.se
+  group: guider
+  description: Guiden till ert bröllop, sedan 2004. Leverantörer, checklista och planering.
+  languages: [sv]
+  status: live
+  url: https://xn--brllop-xxa.se
+  featured: true
+- domain: camping.nu
+  group: guider
+  description: Sveriges campingar och ställplatser, med leads till anläggningarna.
+  languages: [sv]
+  status: live
+  url: https://camping.nu
+- domain: fastighet.nu
+  group: guider
+  description: Investerarguide till fastigheter, lån och crowdfunding.
+  languages: [sv]
+  status: live
+  url: https://fastighet.nu
+- domain: rekond.nu
+  group: guider
+  description: Hitta bilrekond nära dig. Leads till verkstäderna.
+  languages: [sv]
+  status: live
+  url: https://rekond.nu
+- domain: aktie.se
+  group: finans
+  description: Aktiekurser, forum och guider för den som vill lära sig investera.
+  languages: [sv]
+  status: live
+  url: https://aktie.se
+  featured: true
+- domain: valutakurser.com
+  group: finans
+  description: Dagligt uppdaterade valutakurser och konverterare.
+  languages: [sv, 'no', da]
+  status: live
+  url: https://valutakurser.com
+- domain: valuta.org
+  group: finans
+  description: Valutakurser och konverterare för en internationell publik.
+  languages: [multi]
+  status: live
+  url: https://valuta.org
+- domain: investviewer.com
+  group: finans
+  description: Plattformen och kontot bakom nätverkets finanssajter.
+  languages: [sv, da, 'no', nl, en]
+  status: live
+  url: https://investviewer.com
+- domain: guldpris.nu
+  group: finans
+  description: Dagens guldpris per gram och uns, med historik.
+  languages: [sv]
+  status: live
+  url: https://guldpris.nu
+- domain: guldprisen.dk
+  group: finans
+  description: Guldprisen i dag — för den danska marknaden.
+  languages: [da]
+  status: live
+  url: https://guldprisen.dk
+- domain: gull.nu
+  group: finans
+  description: Gullpris og historikk for Norge.
+  languages: ['no']
+  status: live
+  url: https://gull.nu
+- domain: silver.nu
+  group: finans
+  description: Silverpris i realtid på fyra språk.
+  languages: [sv, 'no', da, nl]
+  status: live
+  url: https://silver.nu
+- domain: kopparpris.se
+  group: finans
+  description: Kopparpriset dag för dag, med trend och historik.
+  languages: [sv]
+  status: live
+  url: https://kopparpris.se
+- domain: olja.nu
+  group: finans
+  description: Oljepriset — Brent och WTI, i kronor och dollar.
+  languages: [sv]
+  status: live
+  url: https://olja.nu
+- domain: dollar.nu
+  group: finans
+  description: Dollarkursen mot kronan, just nu och över tid.
+  languages: [sv]
+  status: live
+  url: https://dollar.nu
+- domain: eurokurs.se
+  group: finans
+  description: Eurokursen mot kronan, just nu och över tid.
+  languages: [sv]
+  status: live
+  url: https://eurokurs.se
+- domain: bitcoinpris.se
+  group: finans
+  description: Bitcoinpriset i kronor, med graf och nyheter.
+  languages: [sv]
+  status: live
+  url: https://bitcoinpris.se
+- domain: eth.se
+  group: finans
+  description: Ethereum-kursen i kronor, med graf och nyheter.
+  languages: [sv]
+  status: live
+  url: https://eth.se
+- domain: räntan.se
+  group: privatekonomi
+  description: Dagliga bolåne- och sparräntor från alla storbanker.
+  languages: [sv]
+  status: live
+  url: https://xn--rntan-gra.se
+- domain: elen.se
+  group: privatekonomi
+  description: Sänk elräkningen med din egen förbrukningsdata. Behåll ditt elbolag.
+  languages: [sv]
+  status: live
+  url: https://elen.se
+  featured: true
+- domain: kalkylator.nu
+  group: privatekonomi
+  description: Kalkylatorer för vardagsekonomin. Inget skickas till servern.
+  languages: [sv]
+  status: live
+  url: https://kalkylator.nu
+- domain: spar.nu
+  group: privatekonomi
+  description: Sparkvot, FIRE-kalkyler och guider till ett rikare liv.
+  languages: [sv]
+  status: live
+  url: https://spar.nu
+- domain: kredit.nu
+  group: privatekonomi
+  description: Jämför kreditkort och lån, utan krångel.
+  languages: [sv]
+  status: live
+  url: https://kredit.nu
+- domain: internetsudoku.se
+  group: spel
+  description: Nya sudoku varje dag, i fyra svårighetsgrader.
+  languages: [sv]
+  status: live
+  url: https://internetsudoku.se
+- domain: internetsudoku.dk
+  group: spel
+  description: Daglig sudoku for Danmark.
+  languages: [da]
+  status: live
+  url: https://internetsudoku.dk
+- domain: internetsudoku.net
+  group: spel
+  description: Daily sudoku, international edition.
+  languages: [en]
+  status: live
+  url: https://internetsudoku.net
+- domain: spelasudokuonline.se
+  group: spel
+  description: Spela sudoku online, direkt i webbläsaren.
+  languages: [sv]
+  status: live
+  url: https://spelasudokuonline.se
+- domain: sudokukryss.se
+  group: spel
+  description: Sudoku och korsord på samma ställe.
+  languages: [sv]
+  status: live
+  url: https://sudokukryss.se
+- domain: kortare.se
+  group: spel
+  description: Klassiska kortspel online — patiens, poker, vändtia.
+  languages: [sv]
+  status: live
+  url: https://kortare.se
+- domain: världskarta.se
+  group: spel
+  description: 'Världskartan — och geoquiz: gissa landet, placera staden.'
+  languages: [sv]
+  status: building
+  url: https://xn--vrldskarta-q5a.se
+- domain: map.nu
+  group: spel
+  description: Geoquiz for the world.
+  languages: [en]
+  status: building
+  url: https://map.nu
+- domain: slalom.se
+  group: sport
+  description: Sveriges hub för alpint — kalender, resultat och guider.
+  languages: [sv]
+  status: live
+  url: https://slalom.se
+- domain: fys.se
+  group: sport
+  description: Träning och fys, guider och program.
+  languages: [sv]
+  status: live
+  url: https://fys.se
+- domain: skridskor.se
+  group: sport
+  description: Skridskor, isar och långfärd — guider och utrustning.
+  languages: [sv]
+  status: live
+  url: https://skridskor.se
+- domain: klocka.com
+  group: handel
+  description: Klockor för alla — eget lager, Klarna, snabb leverans.
+  languages: [sv]
+  status: live
+  url: https://klocka.com
+- domain: klockrummet.se
+  group: handel
+  description: Billiga klockor utan att tumma på kvaliteten.
+  languages: [sv]
+  status: live
+  url: https://klockrummet.se
