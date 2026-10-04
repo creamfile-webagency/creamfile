@@ -10,6 +10,9 @@ interface Props {
   url: string;
 }
 const { domain, description, languages, status, url } = Astro.props;
+const langLabel: Record<string, string> = {
+  sv: 'SV', da: 'DA', no: 'NO', nl: 'NL', en: 'EN', multi: 'Flera språk',
+};
 ---
 <a
   href={url}
@@ -27,7 +30,7 @@ const { domain, description, languages, status, url } = Astro.props;
   <p class="sitecard__desc">{description}</p>
   <div class="sitecard__langs">
     {languages.map(lang => (
-      <span class="sitecard__lang">{lang.toUpperCase()}</span>
+      <span class="sitecard__lang">{langLabel[lang] ?? lang.toUpperCase()}</span>
     ))}
   </div>
 </a>

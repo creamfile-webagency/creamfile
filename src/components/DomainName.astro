@@ -8,9 +8,11 @@ const { domain, size = 'md', dark = false } = Astro.props;
 const lastDot = domain.lastIndexOf('.');
 const name = lastDot >= 0 ? domain.slice(0, lastDot) : domain;
 const tld = lastDot >= 0 ? domain.slice(lastDot) : '';
+const dot = tld ? '.' : '';
+const ext = tld ? tld.slice(1) : '';
 ---
 <span class:list={['domain', `domain--${size}`, { 'domain--dark': dark }]}>
-  {name}<span class="domain__dot">{tld}</span>
+  {name}<span class="domain__dot">{dot}</span>{ext}
 </span>
 
 <style>
