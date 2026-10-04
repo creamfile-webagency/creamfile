@@ -7,6 +7,11 @@ routes = [
   { pattern = "www.creamfile.com/*", zone_name = "creamfile.com" }
 ]
 
+[assets]
+# Without run_worker_first=true Cloudflare would serve static assets directly,
+# bypassing the www->apex redirect middleware in src/middleware.ts.
+run_worker_first = true
+
 [vars]
 # Non-secret vars go here. Secrets are set via `wrangler secret put` and never stored in repo:
 #   wrangler secret put TURNSTILE_SECRET
