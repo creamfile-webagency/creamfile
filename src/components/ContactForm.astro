@@ -7,11 +7,11 @@ interface Props {
 const { prefilledAmne = '', showSuccess = false, errorMessage = '' } = Astro.props;
 
 const amneOptions = [
-  'Annonsera',
-  'Premiumprofiler',
-  'Data & partnerskap',
-  'Sälja domän',
-  'Annat',
+  { value: 'annonsera', label: 'Annonsera' },
+  { value: 'premie',    label: 'Premiumprofiler' },
+  { value: 'data',      label: 'Data & partnerskap' },
+  { value: 'doman',     label: 'Sälja domän' },
+  { value: 'annat',     label: 'Annat' },
 ];
 
 const TURNSTILE_SITEKEY = import.meta.env.PUBLIC_TURNSTILE_SITEKEY ?? '';
@@ -80,7 +80,7 @@ const turnstileEnabled = TURNSTILE_SITEKEY && !TURNSTILE_SITEKEY.startsWith('REP
       <select id="amne" name="amne" class="form-input form-select" required aria-required="true">
         <option value="" disabled selected={!prefilledAmne}>Välj ämne</option>
         {amneOptions.map(opt => (
-          <option value={opt} selected={opt === prefilledAmne}>{opt}</option>
+          <option value={opt.value} selected={opt.value === prefilledAmne}>{opt.label}</option>
         ))}
       </select>
     </div>

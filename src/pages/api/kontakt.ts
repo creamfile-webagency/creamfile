@@ -49,23 +49,25 @@ export async function POST({ request }: APIContext): Promise<Response> {
 
   // Field validation
   const { namn, epost, amne, meddelande, foretag = '' } = fields;
-  const validSubjects = [
-    'Annonsera',
-    'Premiumprofiler',
-    'Data & partnerskap',
-    'Sälja domän',
-    'Annat',
-  ];
+  const subjectMap: Record<string, string> = {
+    annonsera: 'Annonsera',
+    premie:    'Premiumprofiler',
+    data:      'Data & partnerskap',
+    doman:     'Sälja domän',
+    annat:     'Annat',
+  };
 
   if (!namn?.trim()) return errorResponse(request, 'Namn saknas.');
   if (!epost?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/))
     return errorResponse(request, 'Ogiltig e-postadress.');
-  if (!validSubjects.includes(amne)) return errorResponse(request, 'Ogiltigt ämne.');
+  if (!subjectMap[amne]) return errorResponse(request, 'Ogiltigt ämne.');
   if (!meddelande || meddelande.length < 20 || meddelande.length > 3000)
     return errorResponse(request, 'Meddelandet måste vara 20–3 000 tecken.');
 
+  const amneLabel = subjectMap[amne];
+
   // Send via Resend
-  const subject = `[creamfile.com] ${amne} — ${foretag || namn}`;
+  const subject = `[creamfile.com] ${amneLabel} — ${foretag || namn}`;
 
   const mailRes = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -78,11 +80,11 @@ export async function POST({ request }: APIContext): Promise<Response> {
       to: ['info@creamfile.com'],
       reply_to: epost,
       subject,
-      text: `Namn: ${namn}\nFöretag: ${foretag || '–'}\nE-post: ${epost}\nÄmne: ${amne}\n\n${meddelande}`,
+      text: `Namn: ${namn}\nFöretag: ${foretag || '–'}\nE-post: ${epost}\nÄmne: ${amneLabel}\n\n${meddelande}`,
       html: `<p><strong>Namn:</strong> ${escapeHtml(namn)}<br>
              <strong>Företag:</strong> ${escapeHtml(foretag || '–')}<br>
              <strong>E-post:</strong> ${escapeHtml(epost)}<br>
-             <strong>Ämne:</strong> ${escapeHtml(amne)}</p>
+             <strong>Ämne:</strong> ${escapeHtml(amneLabel)}</p>
              <p>${escapeHtml(meddelande).replace(/\n/g, '<br>')}</p>`,
     }),
   });

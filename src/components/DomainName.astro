@@ -12,7 +12,7 @@ const dot = tld ? '.' : '';
 const ext = tld ? tld.slice(1) : '';
 ---
 <span class:list={['domain', `domain--${size}`, { 'domain--dark': dark }]}>
-  {name}<span class="domain__dot">{dot}</span>{ext}
+  {name}<span class="domain__dot">{dot}</span><span class="domain__tld">{ext}</span>
 </span>
 
 <style>
@@ -27,6 +27,7 @@ const ext = tld ? tld.slice(1) : '';
 .domain--lg { font-size: 28px; line-height: 1.3; }
 
 .domain__dot { color: var(--color-accent); }
+.domain__tld { color: inherit; }
 .domain--dark .domain__dot { color: var(--color-honey); }
 .domain--dark { color: #FBF8F2; }
 </style>

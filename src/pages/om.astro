@@ -51,10 +51,11 @@ import { groups } from '../data/sites';
   <section class="values container" aria-label="Kärnvärden">
     <div class="values__grid">
       {[
-        { title: 'Självklarhet', text: 'Vi väljer adresser som är det uppenbara svaret på en fråga. Behöver det förklaras är det fel adress.' },
-        { title: 'Nytta före räckvidd', text: 'Sajterna byggs för att lösa besökarens uppgift. Trafik och intäkter är följden, aldrig målet.' },
-        { title: 'Ägande', text: 'Egna domäner, egen kod, egen data, egen publik. Vi hyr inte räckvidd av någon annans algoritm.' },
-        { title: 'Långsiktighet', text: 'Bröllop.se sedan 2004. Vi säger nej till snabba pengar som skadar en adress.' },
+        { title: 'Självklart, inte fyndigt', text: 'Vi väljer adresser som är det uppenbara svaret på en fråga. Behöver det förklaras är det fel adress.' },
+        { title: 'Nytta, inte räckvidd', text: 'Vi bygger för att lösa besökarens uppgift. Trafik och intäkter följer av det — aldrig tvärtom.' },
+        { title: 'Eget, inte hyrt', text: 'Egna domäner, egen kod, egen data, egen publik. Vi lägger inte affären i någon annans algoritm.' },
+        { title: 'Decennier, inte kvartal', text: 'Bröllop.se sedan 2004 — och 2044. Vi lanserar inget vi inte tänker underhålla.' },
+        { title: 'Enklare, inte större', text: 'Varje ny adress ska bli billigare att bygga än den förra. En sajt är en konfiguration, inte ett projekt.' },
       ].map(v => (
         <div class="value">
           <h3 class="value__title">{v.title}</h3>
@@ -205,11 +206,14 @@ import { groups } from '../data/sites';
   grid-template-columns: 1fr;
   gap: 0;
 }
-@media (min-width: 640px) {
+@media (min-width: 480px) {
   .values__grid { grid-template-columns: repeat(2, 1fr); }
 }
+@media (min-width: 640px) {
+  .values__grid { grid-template-columns: repeat(3, 1fr); }
+}
 @media (min-width: 1024px) {
-  .values__grid { grid-template-columns: repeat(4, 1fr); }
+  .values__grid { grid-template-columns: repeat(5, 1fr); }
 }
 
 .value {
