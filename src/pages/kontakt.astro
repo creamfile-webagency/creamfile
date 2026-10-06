@@ -31,10 +31,6 @@ const fel = Astro.url.searchParams.get('fel') ?? '';
 
       <aside class="kontakt__info" aria-label="Kontaktuppgifter">
         <div class="kontakt__info-section">
-          <Label text="E-post" />
-          <a href={`mailto:${site.email}`} class="kontakt__email">{site.email}</a>
-        </div>
-        <div class="kontakt__info-section">
           <Label text={site.name} />
           <p>Org.nr {site.orgNr}</p>
           <p>{site.address}</p>
@@ -99,12 +95,6 @@ const fel = Astro.url.searchParams.get('fel') ?? '';
 .kontakt__info-section p {
   font-size: 16px;
   color: var(--color-ink-soft);
-}
-
-.kontakt__email {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--color-accent);
 }
 
 .kontakt__links {

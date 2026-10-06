@@ -11,8 +11,8 @@ interface Env {
   RESEND_API_KEY: string;
 }
 
-export async function POST({ request }: APIContext): Promise<Response> {
-  const env = (import.meta as any).env as Env;
+export async function POST({ request, locals }: APIContext): Promise<Response> {
+  const env = (locals as any).runtime?.env as Env;
 
   // Parse request body: JSON for fetch() callers, form-data for no-JS fallback
   let fields: Record<string, string>;
