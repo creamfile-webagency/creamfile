@@ -4,6 +4,7 @@ import rawData from './sites.yaml';
 const GroupSchema = z.object({
   id: z.string(),
   name: z.string(),
+  subtitle: z.string().optional(),
   internal: z.string().optional(),
   intro: z.string(),
   tagline: z.string(),
@@ -18,6 +19,7 @@ const SiteSchema = z.object({
   url: z.string().url(),
   featured: z.boolean().default(false),
   hidden: z.boolean().default(false),
+  tags: z.array(z.string()).default([]),
 });
 
 const DataSchema = z.object({

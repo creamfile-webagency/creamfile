@@ -7,10 +7,12 @@ interface Site {
   languages: string[];
   status: 'live' | 'building';
   url: string;
+  tags: string[];
 }
 interface Group {
   id: string;
   name: string;
+  subtitle?: string;
   intro: string;
 }
 interface Props {
@@ -19,9 +21,15 @@ interface Props {
 }
 const { group, sites } = Astro.props;
 ---
-<section class="groupsection" id={group.id} aria-labelledby={`group-${group.id}`}>
+<section class="groupsection" id={group.id} aria-labelledby={`group-${group.id}`} data-group={group.id}>
   <div class="groupsection__header">
-    <h2 id={`group-${group.id}`} class="groupsection__title">{group.name}</h2>
+    <div class="groupsection__titlerow">
+      <h2 id={`group-${group.id}`} class="groupsection__title">{group.name}</h2>
+      <span class="groupsection__count" data-count>{sites.length} sajter</span>
+    </div>
+    {group.subtitle && (
+      <span class="groupsection__subtitle">{group.subtitle}</span>
+    )}
     <p class="groupsection__intro">{group.intro}</p>
   </div>
   <div class="groupsection__grid">
@@ -32,6 +40,7 @@ const { group, sites } = Astro.props;
         languages={site.languages}
         status={site.status}
         url={site.url}
+        tags={site.tags}
       />
     ))}
   </div>
@@ -49,6 +58,13 @@ const { group, sites } = Astro.props;
   gap: 12px;
 }
 
+.groupsection__titlerow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .groupsection__title {
   font-size: 32px;
   line-height: 1.15;
@@ -57,6 +73,21 @@ const { group, sites } = Astro.props;
   font-variation-settings: "opsz" 48, "SOFT" 0;
 }
 @media (min-width: 640px) { .groupsection__title { font-size: 40px; } }
+
+.groupsection__subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-muted);
+  margin-top: -4px;
+}
+
+.groupsection__count {
+  font-size: 13px;
+  color: var(--color-ink-muted);
+  flex-shrink: 0;
+}
 
 .groupsection__intro {
   font-size: 17px;

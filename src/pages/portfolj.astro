@@ -6,6 +6,18 @@ import { getVisibleSites, getGroupsWithSites, getSitesByGroup } from '../data/si
 const visibleSites = getVisibleSites();
 const groupsWithSites = getGroupsWithSites();
 const count = visibleSites.length;
+
+// Compute filter chips: tags on ≥2 visible sites, sorted by count descending
+const tagCounts = new Map<string, number>();
+for (const site of visibleSites) {
+  for (const tag of site.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const filterTags = [...tagCounts.entries()]
+  .filter(([, n]) => n >= 2)
+  .sort((a, b) => b[1] - a[1])
+  .map(([tag]) => tag);
 ---
 <Base
   title={`Portföljen — ${count} sajter i sex affärsområden | Creamfile`}
@@ -20,6 +32,18 @@ const count = visibleSites.length;
     </p>
   </div>
 
+  {filterTags.length > 0 && (
+    <div class="filter-bar container">
+      <span class="filter-bar__label">Visa:</span>
+      <div class="filter-bar__chips" role="group" aria-label="Filtrera sajter efter ämne">
+        <button class="filter-chip filter-chip--active" data-tag="alla" aria-pressed="true">Alla</button>
+        {filterTags.map(tag => (
+          <button class="filter-chip" data-tag={tag} aria-pressed="false">{tag}</button>
+        ))}
+      </div>
+    </div>
+  )}
+
   <div class="portfolj container">
     {groupsWithSites.map(group => (
       <GroupSection
@@ -31,11 +55,58 @@ const count = visibleSites.length;
 
 </Base>
 
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+  const cards = document.querySelectorAll<HTMLElement>('.sitecard[data-tags]');
+  const sections = document.querySelectorAll<HTMLElement>('.groupsection[data-group]');
+
+  function applyFilter(tag: string) {
+    chips.forEach(chip => {
+      const active = chip.dataset.tag === tag;
+      chip.classList.toggle('filter-chip--active', active);
+      chip.setAttribute('aria-pressed', String(active));
+    });
+
+    cards.forEach(card => {
+      if (tag === 'alla') {
+        card.hidden = false;
+      } else {
+        const cardTags = (card.dataset.tags ?? '').split(',').filter(Boolean);
+        card.hidden = !cardTags.includes(tag);
+      }
+    });
+
+    sections.forEach(section => {
+      const visible = section.querySelectorAll('.sitecard:not([hidden])').length;
+      const countEl = section.querySelector('[data-count]');
+      if (countEl) countEl.textContent = `${visible} sajter`;
+      section.hidden = visible === 0;
+    });
+  }
+
+  // Apply hash tag on load
+  const hashMatch = location.hash.match(/^#tag=(.+)$/);
+  if (hashMatch) applyFilter(decodeURIComponent(hashMatch[1]));
+
+  // Chip click
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const tag = chip.dataset.tag ?? 'alla';
+      applyFilter(tag);
+      history.replaceState(
+        null,
+        '',
+        tag === 'alla' ? location.pathname : `#tag=${encodeURIComponent(tag)}`
+      );
+    });
+  });
+</script>
+
 <style>
 .page-header {
   padding: 80px 0 56px;
   border-bottom: 1px solid var(--color-line);
-  margin-bottom: 72px;
+  margin-bottom: 48px;
 }
 @media (min-width: 1024px) { .page-header { padding: 96px 0 64px; } }
 
@@ -51,6 +122,56 @@ const count = visibleSites.length;
   line-height: 1.5;
   color: var(--color-ink-soft);
   max-width: 56ch;
+}
+
+.filter-bar {
+  padding-bottom: 48px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-bar__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  flex-shrink: 0;
+}
+
+.filter-bar__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-chip {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border: 1px solid var(--color-border-ui);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  line-height: 1.4;
+  transition: border-color 0.12s;
+}
+
+.filter-chip:hover:not(.filter-chip--active) {
+  border-color: var(--color-ink-soft);
+}
+
+.filter-chip--active {
+  background: var(--color-ink);
+  color: var(--color-cream);
+  border-color: var(--color-ink);
+}
+
+.filter-chip:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .portfolj {

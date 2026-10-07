@@ -8,8 +8,9 @@ interface Props {
   languages: string[];
   status: 'live' | 'building';
   url: string;
+  tags: string[];
 }
-const { domain, description, languages, status, url } = Astro.props;
+const { domain, description, languages, status, url, tags } = Astro.props;
 const langLabel: Record<string, string> = {
   sv: 'SV', da: 'DA', no: 'NO', nl: 'NL', en: 'EN', multi: 'Flera språk',
 };
@@ -20,6 +21,7 @@ const langLabel: Record<string, string> = {
   rel="noopener"
   class="sitecard"
   aria-label={`${domain} — öppnar i ny flik`}
+  data-tags={tags.join(',')}
 >
   <div class="sitecard__header">
     <DomainName domain={domain} size="md" />
