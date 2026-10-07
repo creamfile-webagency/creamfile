@@ -4,7 +4,7 @@ import Label from '../components/Label.astro';
 import Button from '../components/Button.astro';
 import StatRow from '../components/StatRow.astro';
 import DomainList from '../components/DomainList.astro';
-import { getVisibleSites, getFeaturedSites, getGroupsWithSites, getSitesByGroup } from '../data/sites';
+import { getVisibleSites, getFeaturedSites, getGroupsWithSites, getSitesByGroup, getShowcaseSitesByGroup } from '../data/sites';
 
 const visibleSites = getVisibleSites();
 const featuredSites = getFeaturedSites();
@@ -80,13 +80,18 @@ const description = `Creamfile äger och bygger ${featuredDomains.slice(0, 3).jo
       </div>
 
       {groupsWithSites.map(group => {
-        const groupSites = getSitesByGroup(group.id);
+        const allGroupSites = getSitesByGroup(group.id);
+        const showcaseSites = getShowcaseSitesByGroup(group.id);
+        const moreCount = allGroupSites.length - showcaseSites.length;
         return (
           <DomainList
             groupName={group.name}
             groupId={group.id}
-            domains={groupSites.map(s => s.domain)}
-            count={groupSites.length}
+            domains={showcaseSites.map(s => s.domain)}
+            count={allGroupSites.length}
+            subtitle={group.subtitle}
+            moreCount={moreCount}
+            moreLink={`/portfolj#${group.id}`}
           />
         );
       })}

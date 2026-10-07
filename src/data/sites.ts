@@ -18,6 +18,7 @@ const SiteSchema = z.object({
   status: z.enum(['live', 'building']).default('live'),
   url: z.string().url(),
   featured: z.boolean().default(false),
+  showcase: z.boolean().default(false),
   hidden: z.boolean().default(false),
   tags: z.array(z.string()).default([]),
 });
@@ -38,6 +39,13 @@ for (const site of parsed.sites) {
   }
 }
 
+for (const group of parsed.groups) {
+  const showcaseCount = parsed.sites.filter(s => s.group === group.id && s.showcase && !s.hidden).length;
+  if (showcaseCount > 4) {
+    console.warn(`sites.yaml: group "${group.id}" has ${showcaseCount} showcase sites (max 4 recommended).`);
+  }
+}
+
 export const groups = parsed.groups;
 export const sites = parsed.sites;
 
@@ -52,4 +60,7 @@ export function getSitesByGroup(groupId: string) {
 }
 export function getGroupsWithSites() {
   return parsed.groups.filter(g => getSitesByGroup(g.id).length > 0);
+}
+export function getShowcaseSitesByGroup(groupId: string) {
+  return parsed.sites.filter(s => s.group === groupId && s.showcase && !s.hidden);
 }

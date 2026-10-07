@@ -2,9 +2,9 @@
 import Base from '../layouts/Base.astro';
 import DomainName from '../components/DomainName.astro';
 import Button from '../components/Button.astro';
-import { getFeaturedSites } from '../data/sites';
+import { getShowcaseSitesByGroup } from '../data/sites';
 
-const featuredSites = getFeaturedSites();
+const featuredSites = getShowcaseSitesByGroup('guider');
 ---
 <Base title="404 — Creamfile">
 

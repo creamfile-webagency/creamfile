@@ -6,18 +6,25 @@ interface Props {
   groupId: string;
   domains: string[];
   count: number;
+  subtitle?: string;
+  moreCount?: number;
+  moreLink?: string;
 }
-const { groupName, groupId, domains, count } = Astro.props;
+const { groupName, groupId, domains, count, subtitle, moreCount, moreLink } = Astro.props;
 ---
 <div class="domainlist">
   <div class="domainlist__meta">
     <span class="domainlist__label">{groupName}</span>
+    {subtitle && <span class="domainlist__subtitle">{subtitle}</span>}
     <span class="domainlist__count">{count} sajter</span>
   </div>
   <div class="domainlist__domains">
     {domains.map(domain => (
       <DomainName domain={domain} size="md" dark />
     ))}
+    {(moreCount ?? 0) > 0 && moreLink && (
+      <a href={moreLink} class="domainlist__more">+ {moreCount} till →</a>
+    )}
   </div>
 </div>
 
@@ -51,6 +58,15 @@ const { groupName, groupId, domains, count } = Astro.props;
   color: var(--color-honey);
 }
 
+.domainlist__subtitle {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(251, 248, 242, 0.6);
+}
+
 .domainlist__count {
   font-size: 14px;
   color: rgba(251, 248, 242, 0.6);
@@ -60,5 +76,23 @@ const { groupName, groupId, domains, count } = Astro.props;
   display: flex;
   flex-wrap: wrap;
   gap: 8px 28px;
+}
+
+.domainlist__more {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-honey);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.domainlist__more:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 639px) {
+  .domainlist__more {
+    width: 100%;
+  }
 }
 </style>

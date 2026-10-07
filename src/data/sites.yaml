@@ -1,17 +1,7 @@
-# Creamfile — portföljdata för creamfile.com (rev. 2, 2026-10-07)
+# Creamfile — portföljdata för creamfile.com (rev. 3, 2026-10-07)
 # Redigera den här filen för att lägga till, ta bort eller flytta sajter.
 # Sajten byggs om automatiskt vid push. Ordningen i filen = ordningen på sajten.
 #
-# groups:      id, name (publik rubrik), subtitle (valfri underrubrik, t.ex. "InvestViewer-nätverket"),
-#              internal (internt namn, visas inte), intro (text på portföljsidan), tagline (en rad i "Så bygger vi")
-# group:       PRIMÄR grupp = hur sajten tjänar pengar, inte vad den handlar om. Ett av id:na under groups.
-# tags:        ämnen, används för filtret "Visa:" på portföljsidan så att en sajt kan hittas över gruppgränser
-#              (camping.nu ligger i guider men syns under både "resa" och "shopping")
-# languages:   sv, da, no, nl, en eller multi (visas som "Flera språk")
-# status:      live | building   (building visar etiketten "Under uppbyggnad")
-# url:         punycode för IDN-domäner (bröllop.se = xn--brllop-xxa.se)
-# featured:    true = nämns i hero-texten på startsidan (max 5)
-# hidden:      true = döljs från sajten utan att raderas
 groups:
 - id: guider
   name: Guider & leads
@@ -54,6 +44,7 @@ sites:
   url: https://restaurang.com
   featured: true
   tags: [mat, lokalt]
+  showcase: true
 - domain: hotellet.se
   group: guider
   description: 1 800 hotell i 621 orter, jämförda och recenserade av svenska gäster.
@@ -62,6 +53,7 @@ sites:
   url: https://hotellet.se
   featured: true
   tags: [resa, lokalt]
+  showcase: true
 - domain: bröllop.se
   group: guider
   description: Guiden till ert bröllop, sedan 2004. Leverantörer, checklista och planering.
@@ -70,6 +62,7 @@ sites:
   url: https://xn--brllop-xxa.se
   featured: true
   tags: [bröllop, lokalt]
+  showcase: true
 - domain: camping.nu
   group: guider
   description: Sveriges campingar och ställplatser, med leads till anläggningarna.
@@ -99,6 +92,7 @@ sites:
   url: https://aktie.se
   featured: true
   tags: [aktier, investering]
+  showcase: true
 - domain: valutakurser.com
   group: finans
   description: Dagligt uppdaterade valutakurser och konverterare.
@@ -106,6 +100,7 @@ sites:
   status: live
   url: https://valutakurser.com
   tags: [valuta]
+  showcase: true
 - domain: valuta.org
   group: finans
   description: Valutakurser och konverterare för en internationell publik.
@@ -148,6 +143,7 @@ sites:
   status: live
   url: https://silver.nu
   tags: [ädelmetall, investering]
+  showcase: true
 - domain: kopparpris.se
   group: finans
   description: Kopparpriset dag för dag, med trend och historik.
@@ -197,6 +193,7 @@ sites:
   status: live
   url: https://xn--rntan-gra.se
   tags: [bolån, bostad]
+  showcase: true
 - domain: elen.se
   group: privatekonomi
   description: Sänk elräkningen med din egen förbrukningsdata. Behåll ditt elbolag.
@@ -205,6 +202,7 @@ sites:
   url: https://elen.se
   featured: true
   tags: [el, bostad]
+  showcase: true
 - domain: kalkylator.se
   group: privatekonomi
   description: Kalkylatorer för vardagsekonomin. Inget skickas till servern.
@@ -212,6 +210,7 @@ sites:
   status: live
   url: https://kalkylator.se
   tags: [kalkyl]
+  showcase: true
 - domain: spar.nu
   group: privatekonomi
   description: Sparkvot, FIRE-kalkyler och guider till ett rikare liv.
@@ -233,6 +232,7 @@ sites:
   status: live
   url: https://internetsudoku.se
   tags: [sudoku]
+  showcase: true
 - domain: internetsudoku.dk
   group: spel
   description: Daglig sudoku for Danmark.
@@ -268,6 +268,7 @@ sites:
   status: live
   url: https://kortare.se
   tags: [kortspel]
+  showcase: true
 - domain: världskarta.se
   group: spel
   description: 'Världskartan — och geoquiz: gissa landet, placera staden.'
@@ -282,6 +283,7 @@ sites:
   status: building
   url: https://map.nu
   tags: [geografi, quiz]
+  showcase: true
 - domain: slalom.se
   group: sport
   description: Sveriges hub för alpint — kalender, resultat och guider.
@@ -289,6 +291,7 @@ sites:
   status: live
   url: https://slalom.se
   tags: [alpint, fritid]
+  showcase: true
 - domain: fys.se
   group: sport
   description: Träningsprogram, övningar och guider för den som vill bli starkare.
@@ -296,6 +299,7 @@ sites:
   status: live
   url: https://fys.se
   tags: [träning]
+  showcase: true
 - domain: skridskor.se
   group: sport
   description: Skridskor, isar och långfärd — guider och utrustning.
@@ -303,6 +307,7 @@ sites:
   status: live
   url: https://skridskor.se
   tags: [skridskor, fritid, shopping]
+  showcase: true
 - domain: klocka.com
   group: handel
   description: Guiden till rätt klocka — jämför modeller, märken och priser innan du köper.
@@ -310,6 +315,7 @@ sites:
   status: live
   url: https://klocka.com
   tags: [klockor, shopping]
+  showcase: true
 - domain: klockrummet.se
   group: handel
   description: 'Vår egen e-butik: billiga klockor med eget lager i Sverige, Klarna och snabb leverans.'
@@ -317,3 +323,4 @@ sites:
   status: live
   url: https://klockrummet.se
   tags: [klockor, shopping]
+  showcase: true
