@@ -79,7 +79,7 @@ const filterTags = [...tagCounts.entries()]
     sections.forEach(section => {
       const visible = section.querySelectorAll('.sitecard:not([hidden])').length;
       const countEl = section.querySelector('[data-count]');
-      if (countEl) countEl.textContent = `${visible} sajter`;
+      if (countEl) countEl.textContent = visible === 1 ? '1 sajt' : `${visible} sajter`;
       section.hidden = visible === 0;
     });
   }
@@ -165,7 +165,7 @@ const filterTags = [...tagCounts.entries()]
 
 .filter-chip--active {
   background: var(--color-ink);
-  color: var(--color-cream);
+  color: var(--color-surface);
   border-color: var(--color-ink);
 }
 
