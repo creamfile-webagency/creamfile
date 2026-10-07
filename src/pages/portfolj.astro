@@ -38,7 +38,7 @@ const filterTags = [...tagCounts.entries()]
       <div class="filter-bar__chips" role="group" aria-label="Filtrera sajter efter ämne">
         <button class="filter-chip filter-chip--active" data-tag="alla" aria-pressed="true">Alla</button>
         {filterTags.map(tag => (
-          <button class="filter-chip" data-tag={tag} aria-pressed="false">{tag}</button>
+          <button class="filter-chip" data-tag={tag} aria-pressed="false">{tag.charAt(0).toUpperCase() + tag.slice(1)}</button>
         ))}
       </div>
     </div>
