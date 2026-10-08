@@ -13,6 +13,7 @@ interface Props {
 
 const { title, description, canonical, ogImage = '/og-default.png' } = Astro.props;
 const isHome = Astro.url.pathname === '/';
+const ga4Id = import.meta.env.GA4_CREAMFILE;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -46,6 +47,15 @@ const jsonLd = {
   )}
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
     data-cf-beacon='{"token": "REPLACE_WITH_CF_ANALYTICS_TOKEN"}'></script>
+  {ga4Id && <Fragment>
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+    <script define:vars={{ ga4Id }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', ga4Id);
+    </script>
+  </Fragment>}
 </head>
 <body>
   <a href="#main-content" class="skip-link">Hoppa till innehåll</a>
